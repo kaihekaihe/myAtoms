@@ -1,0 +1,12 @@
+node_modules
+.next
+data
+.git
+.env
+.env.local
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.log
+说明文档.md

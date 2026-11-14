@@ -1,0 +1,24 @@
+services:
+  atomlab:
+    build: .
+    image: atomlab:latest
+    container_name: atomlab
+    ports:
+      - "3000:3000"
+    environment:
+      # SQLite 持久化（命名卷；备份 = docker cp atomlab:/data/atomlab.db ./）
+      DB_PATH: /data/atomlab.db
+      # LLM 配置：也可放到同目录 .env 文件中（变量名一致，compose 会自动读取）
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_TIMEOUT_MS: ${LLM_TIMEOUT_MS:-120000}
+      LLM_EXTRA_BODY: ${LLM_EXTRA_BODY:-}
+      # 分享链接的外网前缀（部署后填实际域名，如 https://atomlab.example.com）
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+    volumes:
+      - atomlab-data:/data
+    restart: unless-stopped
+
+volumes:
+  atomlab-data:
